@@ -173,9 +173,73 @@ WHERE sub2.total_revenue <1000
 
 /* Q11: Produce a report of members and who recommended them in alphabetic surname,firstname order */
 
+SELECT (m1.firstname ||' ' || m1.surname ) AS name, (m2.firstname ||' ' || m2.surname ) AS recommended_by
+FROM Members AS m1
+INNER JOIN Members AS m2 ON m1.memid = m2.recommendedby
+ORDER BY m1.surname
+LIMIT 0 , 30
+
+2.6.0
+2. Query all tasks
+('Florence Bader', 'Ramnaresh Sarwin')
+('Timothy Baker', 'Joan Coplin')
+('Gerald Butters', 'Matthew Genting')
+('Jemima Farrell', 'Timothy Baker')
+('Jemima Farrell', 'David Pinker')
+('Matthew Genting', 'Henrietta Rumney')
+('David Jones', 'Douglas Jones')
+('Janice Joplette', 'Nancy Dare')
+('Janice Joplette', 'David Jones')
+('Millicent Purview', 'John Hunt')
+('Tim Rownam', 'Tim Boothe')
+('Darren Smith', 'Janice Joplette')
+('Darren Smith', 'Gerald Butters')
+('Darren Smith', 'Charles Owen')
+('Darren Smith', 'Jack Smith')
+('Darren Smith', 'Anna Mackenzie')
+('Tracy Smith', 'Henry Worthington-Smyth')
+('Tracy Smith', 'Millicent Purview')
+('Tracy Smith', 'Erica Crumpet')
+('Ponder Stibbons', 'Anne Baker')
+('Ponder Stibbons', 'Florence Bader')
+('Burton Tracy', 'Ponder Stibbons')
 
 /* Q12: Find the facilities with their usage by member, but not guests */
+
+SELECT b.facid, COUNT( b.memid ) AS mem_usage, f.name
+FROM (
+SELECT facid, memid
+FROM Bookings
+WHERE memid !=0
+) AS b
+LEFT JOIN Facilities AS f ON b.facid = f.facid
+GROUP BY b.facid;
+
+2.6.0
+2. Query all tasks
+(0, 308, 'Tennis Court 1')
+(1, 276, 'Tennis Court 2')
+(2, 344, 'Badminton Court')
+(3, 385, 'Table Tennis')
+(4, 421, 'Massage Room 1')
+(5, 27, 'Massage Room 2')
+(6, 195, 'Squash Court')
+(7, 421, 'Snooker Table')
+(8, 783, 'Pool Table')
 
 
 /* Q13: Find the facilities usage by month, but not guests */
 
+SELECT b.months, COUNT( b.memid ) AS mem_usage
+FROM (
+SELECT strftime('%m', starttime) as months, memid
+FROM Bookings
+WHERE memid !=0
+) AS b
+GROUP BY b.months;
+
+2.6.0
+2. Query all tasks
+('07', 480)
+('08', 1168)
+('09', 1512)
